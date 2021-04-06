@@ -63,7 +63,7 @@ func (ctlr *Controller) runController() {
 			// This happens during Starting of Controller to sync the DB with Initial Requests
 			if req.IPAddr != "" {
 				if ctlr.Manager.AllocateIPAddress(req) {
-					log.Debugf("[CORE] Allocated IP---: %v for Request: %v", req.IPAddr, req.String())
+					log.Debugf("[CORE] Allocated IP: %v for Request: %v", req.IPAddr, req.String())
 					ctlr.Manager.CreateARecord(req)
 					go sendResponse(req, req.IPAddr)
 				} else {
@@ -89,7 +89,7 @@ func (ctlr *Controller) runController() {
 
 			ipAddr = ctlr.Manager.GetNextIPAddress(req)
 			if ipAddr != "" {
-				log.Debugf("[CORE] Allocated IP...: %v for Request: %v", ipAddr, req.String())
+				log.Debugf("[CORE] Allocated IP: %v for Request: %v", ipAddr, req.String())
 				req.IPAddr = ipAddr
 				ctlr.Manager.CreateARecord(req)
 				go sendResponse(req, ipAddr)

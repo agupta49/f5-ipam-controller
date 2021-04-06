@@ -60,7 +60,6 @@ func (prov *IPAMProvider) Init(params Params) bool {
 		if len(ipRangeConfig) != 2 {
 			return false
 		}
-
 		startIP := net.ParseIP(ipRangeConfig[0])
 		if startIP == nil {
 			return false

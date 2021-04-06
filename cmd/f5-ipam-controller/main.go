@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
+
+	"golang.org/x/crypto/ssh/terminal"
 
 	"github.com/F5Networks/f5-ipam-controller/pkg/controller"
 	"github.com/F5Networks/f5-ipam-controller/pkg/manager"

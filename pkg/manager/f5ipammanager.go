@@ -83,7 +83,6 @@ func (ipMgr *IPAMManager) GetIPAddress(req ipamspec.IPAMRequest) string {
 		log.Errorf("[IPMG] Invalid Request to Get IP Address: %v", req.String())
 		return ""
 	}
-
 	if req.Key != "" {
 		return ipMgr.provider.GetIPAddress(req.IPAMLabel, req.Key)
 	}

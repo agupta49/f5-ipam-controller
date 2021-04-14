@@ -19,6 +19,7 @@ package ipammachinery
 import (
 	"context"
 	"fmt"
+
 	"github.com/F5Networks/f5-ipam-controller/pkg/ipamapis/client/clientset/versioned"
 	log "github.com/F5Networks/f5-ipam-controller/pkg/vlogger"
 	apiextensionv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
@@ -35,12 +36,10 @@ const (
 	// F5IPAM is a F5 Custom Resource Kind.
 	F5ipam = "F5IPAM"
 
-	CRDPlural        string = "f5ipams"
-	CRDGroup         string = "fic.f5.com"
-	CRDVersion       string = "v1"
-	FullCRDName      string = CRDPlural + "." + CRDGroup
-	HostnamePattern  string = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$"
-	IPADdressPattern string = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+	CRDPlural   string = "f5ipams"
+	CRDGroup    string = "fic.f5.com"
+	CRDVersion  string = "v1"
+	FullCRDName string = CRDPlural + "." + CRDGroup
 )
 
 var CRDVersions = []apiextensionv1beta1.CustomResourceDefinitionVersion{{Name: CRDVersion, Served: true, Storage: true}}
@@ -129,43 +128,6 @@ func RegisterCRD(clientset extClient.Interface) error {
 			Names: apiextensionv1beta1.CustomResourceDefinitionNames{
 				Plural: CRDPlural,
 				Kind:   F5ipam,
-			},
-			Validation: &apiextensionv1beta1.CustomResourceValidation{OpenAPIV3Schema: &apiextensionv1beta1.JSONSchemaProps{
-				Type: "object",
-				Properties: map[string]apiextensionv1beta1.JSONSchemaProps{
-					"spec": {
-						Type: "object",
-						Properties: map[string]apiextensionv1beta1.JSONSchemaProps{
-							"hostSpecs": {
-								Type: "array",
-								Items: &apiextensionv1beta1.JSONSchemaPropsOrArray{
-									Schema: &apiextensionv1beta1.JSONSchemaProps{Type: "object", Properties: map[string]apiextensionv1beta1.JSONSchemaProps{
-										"host":      {Type: "string", Format: "string", Pattern: HostnamePattern},
-										"key":       {Type: "string", Format: "string"},
-										"ipamLabel": {Type: "string", Format: "string"}},
-									},
-								},
-							},
-						},
-					},
-					"status": {
-						Type: "object",
-						Properties: map[string]apiextensionv1beta1.JSONSchemaProps{
-							"IPStatus": {
-								Type: "array",
-								Items: &apiextensionv1beta1.JSONSchemaPropsOrArray{
-									Schema: &apiextensionv1beta1.JSONSchemaProps{Type: "object", Properties: map[string]apiextensionv1beta1.JSONSchemaProps{
-										"host":      {Type: "string", Format: "string", Pattern: HostnamePattern},
-										"key":       {Type: "string", Format: "string"},
-										"ip":        {Type: "string", Format: "string", Pattern: IPADdressPattern},
-										"ipamLabel": {Type: "string", Format: "string"}},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
 			},
 		},
 	}
